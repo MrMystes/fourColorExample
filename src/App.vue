@@ -5,8 +5,8 @@
 </template>
 
 <script>
-import coordinates from "./assets/coordinates.json";
-import { calcReleations } from "./utils/fourColorCalculate";
+import coordinates from "./assets/xzjb1-coordinates.json";
+import { calcReleations } from "four-color-calc/index.js";
 console.log(coordinates);
 export default {
     name: "App",
@@ -18,11 +18,13 @@ export default {
             container: "map",
             style: "mapbox://styles/mapbox/streets-v11",
             center: [120.31, 31.69], // starting position [lng, lat]
-            zoom: 13
+            zoom: 6
         });
 
-        this.map.on("load", () => {
-            const answer = calcReleations(coordinates);
+        this.map.on("load", async () => {
+            console.time(1);
+            const answer = await calcReleations(coordinates);
+            console.timeEnd(1);
             const colors = ["#eb4b3e", "#46af0e", "#e09010", "#395fdc"];
             const features = coordinates.map((coordinate, index) => {
                 return {
